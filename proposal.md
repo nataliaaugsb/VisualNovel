@@ -32,12 +32,13 @@ Ace Attorney, and other games.
 ## Outcomes
 Ideal Outcome:
 - a fully functional visual novel game with personalized assets that i've created
+
 Minimal Viable Outcome:
--a base visual novel game where I use borrowed assets
+- a base visual novel game where I use borrowed assets
 
 ## Milestones
 
--Week 1
+- Week 1
  1. create temporary base assets and add it to pygame
  2. add text box and dialogue
 
