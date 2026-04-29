@@ -8,20 +8,21 @@ import os
 # function for each dialogue branching systems or pathways
 #display dialogue/text function? 
 
+print (pygame.__file__)
 
-
-
+directory = os.path.dirname(os.path.abspath(__file__))
+textbox_path = os.path.join(directory, "assets", "text_box.bmp")
 
 
 
 directory = os.path.dirname(os.path.abspath(__file__))
-temoc_path = os.path.join(directory, "assets", "temoc_content.bmp")
-textbox_path = os.path.join(directory, "assets", "text_box.bmp")
-
 temoc = {"disgust": os.path.join(directory, "assets","temoc_disgust.bmp"),
-         "happy": os.path.join(directory,"assets","temoc_happy.bmp"),
-         "worried": os.path.join(directory, "assets","temoc_worried.bmp"),
-         "content" : os.path.join(directory, "assets","temoc_content.bmp")}
+        "happy": os.path.join(directory,"assets","temoc_happy.bmp"),
+        "worried": os.path.join(directory, "assets","temoc_worried.bmp"),
+        "content" : os.path.join(directory, "assets","temoc_content.bmp")}
+
+
+
 
 
 def main():  
@@ -31,6 +32,7 @@ def main():
     fullscreen = False
     resolution = (1920, 1080)
     screen = pygame.display.set_mode (resolution, pygame.RESIZABLE)
+
     textbox = pygame.image.load(textbox_path)
     temoc_face = temoc["worried"]
     img = pygame.image.load(temoc_face)
@@ -51,7 +53,7 @@ def main():
         screen.blit(new_box,(230,400))
         screen.blit(new_image,(0,230))
         pygame.display.flip()
-    pygame.quit
+    pygame.quit()
     sys.exit()
 
 
