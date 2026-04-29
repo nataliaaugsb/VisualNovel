@@ -11,9 +11,18 @@ import os
 
 
 
+
+
+
 directory = os.path.dirname(os.path.abspath(__file__))
 temoc_path = os.path.join(directory, "assets", "temoc_content.bmp")
 textbox_path = os.path.join(directory, "assets", "text_box.bmp")
+
+temoc = {"disgust": os.path.join(directory, "assets","temoc_disgust.bmp"),
+         "happy": os.path.join(directory,"assets","temoc_happy.bmp"),
+         "worried": os.path.join(directory, "assets","temoc_worried.bmp"),
+         "content" : os.path.join(directory, "assets","temoc_content.bmp")}
+
 
 def main():  
     pygame.init()
@@ -23,15 +32,16 @@ def main():
     resolution = (1920, 1080)
     screen = pygame.display.set_mode (resolution, pygame.RESIZABLE)
     textbox = pygame.image.load(textbox_path)
-    image = pygame.image.load(temoc_path)
+    temoc_face = temoc["worried"]
+    img = pygame.image.load(temoc_face)
     box_width, box_height = textbox.get_size()
     new_box_width = box_width//1.7
     new_box_height = box_height //1.7
     new_box = pygame.transform.smoothscale(textbox,(new_box_width, new_box_height))
-    width, height = image.get_size()
+    width, height = img.get_size()
     new_width = width//2.7
     new_height = height//2.7
-    new_image = pygame.transform.smoothscale(image,(new_width ,new_height))
+    new_image = pygame.transform.smoothscale(img,(new_width ,new_height))
     running = True
     while running:
         screen.fill('Black')
