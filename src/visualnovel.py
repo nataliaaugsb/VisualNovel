@@ -3,6 +3,14 @@ import pygame
 import sys
 import os
 
+# function for adding/loading UI and background to screen
+# function for adding temoc sprites
+# function for each dialogue branching systems or pathways
+#display dialogue/text function? 
+
+
+
+
 directory = os.path.dirname(os.path.abspath(__file__))
 temoc_path = os.path.join(directory, "assets", "temoc_content.bmp")
 textbox_path = os.path.join(directory, "assets", "text_box.bmp")
