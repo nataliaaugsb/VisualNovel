@@ -15,8 +15,8 @@ def main():
     filename = "temoc_happy.bmp"
     image = pygame.image.load(filename)
     width, height = image.get_size()
-    new_width = width//3.5
-    new_height = height//3.5
+    new_width = width//3
+    new_height = height//3
     new_image = pygame.transform.smoothscale(image,(new_width ,new_height))
     running = True
     while running:
@@ -24,7 +24,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        screen.blit(new_image, (0,-5))
+        screen.blit(new_image, (0,300))
         pygame.display.flip()
     pygame.quit
     sys.exit()
