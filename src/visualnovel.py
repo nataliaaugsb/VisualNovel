@@ -32,9 +32,10 @@ def main():
     fullscreen = False
     resolution = (1920, 1080)
     screen = pygame.display.set_mode (resolution, pygame.RESIZABLE)
-
+    font = pygame.font.Font(None,60)
+    text = font.render ("Welcome to UTD!", True ,(255,255,255))
     textbox = pygame.image.load(textbox_path)
-    temoc_face = temoc["worried"]
+    temoc_face = temoc["happy"]
     img = pygame.image.load(temoc_face)
     box_width, box_height = textbox.get_size()
     new_box_width = box_width//1.7
@@ -52,6 +53,7 @@ def main():
                 running = False
         screen.blit(new_box,(230,400))
         screen.blit(new_image,(0,230))
+        screen.blit(text, (400, 650))
         pygame.display.flip()
     pygame.quit()
     sys.exit()
