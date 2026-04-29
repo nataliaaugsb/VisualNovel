@@ -12,6 +12,7 @@ print (pygame.__file__)
 
 directory = os.path.dirname(os.path.abspath(__file__))
 textbox_path = os.path.join(directory, "assets", "text_box.bmp")
+bg_path = os.path.join(directory, "assets", "background.bmp")
 
 
 
@@ -34,9 +35,14 @@ def main():
     screen = pygame.display.set_mode (resolution, pygame.RESIZABLE)
     font = pygame.font.Font(None,60)
     text = font.render ("Welcome to UTD!", True ,(255,255,255))
+    background = pygame.image.load(bg_path)
     textbox = pygame.image.load(textbox_path)
     temoc_face = temoc["happy"]
     img = pygame.image.load(temoc_face)
+    bg_width, bg_height = background.get_size()
+    new_bg_width = bg_width//1.5
+    new_bg_height = bg_height//1.9
+    new_bg = pygame.transform.smoothscale(background,(new_bg_width, new_bg_height))
     box_width, box_height = textbox.get_size()
     new_box_width = box_width//1.7
     new_box_height = box_height //1.7
@@ -51,6 +57,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+        screen.blit(new_bg, (0,0))
         screen.blit(new_box,(230,400))
         screen.blit(new_image,(0,230))
         screen.blit(text, (400, 650))
