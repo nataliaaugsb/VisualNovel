@@ -27,48 +27,48 @@ expression = {"disgust": os.path.join(directory, "assets","temoc_disgust.bmp"),
         "content" : os.path.join(directory, "assets","temoc_content.bmp")}
 
 
-
-
-
-
-
-
-def main():  
+def font():
     font = pygame.font.Font(None,60)
-    text = font.render ("Welcome to UTD!", True ,(255,255,255))
-    background = pygame.image.load(bg_path)
-    textbox = pygame.image.load(textbox_path)
-    temoc = expression["happy"]
-    img = pygame.image.load(temoc)
-    bg_width, bg_height = background.get_size()
-    new_bg_width = bg_width//1.5
-    new_bg_height = bg_height//1.9
-    new_bg = pygame.transform.smoothscale(background,(new_bg_width, new_bg_height))
-    box_width, box_height = textbox.get_size()
-    new_box_width = box_width//1.7
-    new_box_height = box_height //1.7
-    new_box = pygame.transform.smoothscale(textbox,(new_box_width, new_box_height))
-    width, height = img.get_size()
-    new_width = width//2.7
-    new_height = height//2.7
-    new_image = pygame.transform.smoothscale(img,(new_width ,new_height))
-    running = True
-    while running:
-        screen.fill('Black')
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-        screen.blit(new_bg, (0,0))
-        screen.blit(new_box,(230,400))
-        screen.blit(new_image,(0,230))
-        screen.blit(text, (400, 650))
-        pygame.display.flip()
-    pygame.quit()
-    sys.exit()
+    text = font.render (line_1, True, (255,255,255))
+    line_1 = "Welcome to UTD!"
 
 
 
 
 
-if __name__=="__main__":
-    main()
+
+
+font = pygame.font.Font(None,60)
+text = font.render ("Welcome to UTD!", True ,(255,255,255))
+background = pygame.image.load(bg_path)
+textbox = pygame.image.load(textbox_path)
+temoc = expression["happy"]
+img = pygame.image.load(temoc)
+bg_width, bg_height = background.get_size()
+new_bg_width = bg_width//1.5
+new_bg_height = bg_height//1.9
+new_bg = pygame.transform.smoothscale(background,(new_bg_width, new_bg_height))
+box_width, box_height = textbox.get_size()
+new_box_width = box_width//1.7
+new_box_height = box_height //1.7
+new_box = pygame.transform.smoothscale(textbox,(new_box_width, new_box_height))
+width, height = img.get_size()
+new_width = width//2.7
+new_height = height//2.7
+new_image = pygame.transform.smoothscale(img,(new_width ,new_height))
+running = True
+while running:
+    screen.fill('Black')
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    screen.blit(new_bg, (0,0))
+    screen.blit(new_box,(230,400))
+    screen.blit(new_image,(0,230))
+    screen.blit(text, (400, 650))
+    pygame.display.flip()
+
+
+
+
+
