@@ -8,6 +8,12 @@ import os
 # function for each dialogue branching systems or pathways
 #display dialogue/text function? 
 
+pygame.init()
+pygame.image.get_extended()
+pygame.display.set_caption("A Day with Temoc")
+fullscreen = False
+resolution = (1920, 1080)
+screen = pygame.display.set_mode (resolution, pygame.RESIZABLE)
 
 
 directory = os.path.dirname(os.path.abspath(__file__))
@@ -22,13 +28,12 @@ expression = {"disgust": os.path.join(directory, "assets","temoc_disgust.bmp"),
 
 
 
+
+
+
+
+
 def main():  
-    pygame.init()
-    pygame.image.get_extended()
-    pygame.display.set_caption("A Day with Temoc")
-    fullscreen = False
-    resolution = (1920, 1080)
-    screen = pygame.display.set_mode (resolution, pygame.RESIZABLE)
     font = pygame.font.Font(None,60)
     text = font.render ("Welcome to UTD!", True ,(255,255,255))
     background = pygame.image.load(bg_path)
