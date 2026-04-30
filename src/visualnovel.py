@@ -8,21 +8,17 @@ import os
 # function for each dialogue branching systems or pathways
 #display dialogue/text function? 
 
-print (pygame.__file__)
+
 
 directory = os.path.dirname(os.path.abspath(__file__))
 textbox_path = os.path.join(directory, "assets", "text_box.bmp")
 bg_path = os.path.join(directory, "assets", "background.bmp")
 
-
-
 directory = os.path.dirname(os.path.abspath(__file__))
-temoc = {"disgust": os.path.join(directory, "assets","temoc_disgust.bmp"),
+expression = {"disgust": os.path.join(directory, "assets","temoc_disgust.bmp"),
         "happy": os.path.join(directory,"assets","temoc_happy.bmp"),
         "worried": os.path.join(directory, "assets","temoc_worried.bmp"),
         "content" : os.path.join(directory, "assets","temoc_content.bmp")}
-
-
 
 
 
@@ -37,8 +33,8 @@ def main():
     text = font.render ("Welcome to UTD!", True ,(255,255,255))
     background = pygame.image.load(bg_path)
     textbox = pygame.image.load(textbox_path)
-    temoc_face = temoc["happy"]
-    img = pygame.image.load(temoc_face)
+    temoc = expression["happy"]
+    img = pygame.image.load(temoc)
     bg_width, bg_height = background.get_size()
     new_bg_width = bg_width//1.5
     new_bg_height = bg_height//1.9
@@ -64,6 +60,8 @@ def main():
         pygame.display.flip()
     pygame.quit()
     sys.exit()
+
+
 
 
 
