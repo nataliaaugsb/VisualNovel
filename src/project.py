@@ -13,9 +13,20 @@ screen = pygame.display.set_mode (resolution, pygame.RESIZABLE)
 
 directory = os.path.dirname(os.path.abspath(__file__))
 textbox_path = os.path.join(directory, "assets", "text_box.bmp")
-bg_path = os.path.join(directory, "assets", "background.bmp")
 response_path = os.path.join(directory,"assets", "response_box.bmp")
 music_path = os.path.join(directory, "assets", "music.mp3")
+
+backgrounds = {
+    "intro_bg" : os.path.join(directory, "assets","background.bmp"),
+    "library_bg" : os.path.join(directory, "assets","library.bmp"),
+    "dininghall_bg": os.path.join(directory, "assets","dininghall.bmp"),
+    "esports_bg" : os.path.join(directory, "assets","esports.bmp"),
+    "gym_bg" : os.path.join(directory, "assets","pool.bmp"),
+    "atec_bg" : os.path.join(directory, "assets","atec_labs.bmp"),
+    "jsom_bg" : os.path.join(directory, "assets","jsom.bmp"),
+    "dorms_bg" : os.path.join(directory, "assets","dorms.bmp"),
+    "su_bg" : os.path.join(directory, "assets","studentunion.bmp"),
+}
 
 expression = {"disgust": os.path.join(directory, "assets","temoc_disgust.bmp"),
         "happy": os.path.join(directory,"assets","temoc_happy.bmp"),
@@ -103,6 +114,10 @@ def load_dialogues():
 
     }
 
+def load_fullscreen(path):
+    img = pygame.image.load(path).convert_alpha()
+    return pygame.transform.smoothscale(img, (1920,1080))
+
 def load_scale(path,scale):
     img = pygame.image.load(path).convert_alpha()
     w,h = img.get_size()
@@ -128,16 +143,18 @@ class Music:
         self.play = True
 
 def main():  
-    background = load_scale(bg_path,1.5)
     response = load_scale(response_path,4)
     textbox = load_scale(textbox_path, 1.7)
     temoc_imgs = {key: load_scale (path, 2.7)
                   for key, path in expression.items()}
+    bg_imgs = {key: load_fullscreen(path)
+               for key, path in backgrounds.items()}
     load_scale(expression["happy"], 2.7)
     music = Music()
     music.start_music(music_path, volume = 0.5)
     font = pygame.font.Font(None,60)
     dialogues = load_dialogues()
+    current_bg = "intro_bg"
     dialogue = dialogues["intro"]
     index = 0
     current_expression = dialogue[index][1]
@@ -200,12 +217,14 @@ def main():
 
                     if choice_state == "intro":
                         if top_rect.collidepoint(mouse_pos):
+                            current_bg = "library_bg"
                             dialogue = dialogues["library"]
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
 
                         elif bottom_rect.collidepoint(mouse_pos):
+                            current_bg = "dininghall_bg"
                             dialogue = dialogues["dininghall"]
                             index = 0
                             current_expression = dialogue[index][1]
@@ -213,12 +232,14 @@ def main():
 
                     elif choice_state == "library":
                         if bottom_rect.collidepoint(mouse_pos):
+                            current_bg = "esports_bg"
                             dialogue = dialogues["esports"]
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
 
                         elif top_rect.collidepoint(mouse_pos):
+                            current_bg = "gym_bg"
                             dialogue = dialogues["gym"]
                             index = 0
                             current_expression = dialogue[index][1]
@@ -226,12 +247,14 @@ def main():
                     
                     elif choice_state == "dininghall":
                         if top_rect.collidepoint(mouse_pos):
+                            current_bg = "atec_bg"
                             dialogue = dialogues["atec"]
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
 
                         elif bottom_rect.collidepoint(mouse_pos):
+                            current_bg = "jsom_bg"
                             dialogue = dialogues["jsom"]
                             index = 0
                             current_expression = dialogue[index][1]
@@ -239,12 +262,14 @@ def main():
 
                     elif choice_state == "atec":
                         if top_rect.collidepoint(mouse_pos):
+                            current_bg = "dorms_bg"
                             dialogue = dialogues["dorms"]
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False 
                         
                         elif bottom_rect.collidepoint(mouse_pos):
+                            current_bg = "su_bg"
                             dialogue = dialogues["su"]
                             index = 0
                             current_expression = dialogue[index][1]
@@ -252,12 +277,14 @@ def main():
                     
                     elif choice_state == "jsom":
                         if top_rect.collidepoint(mouse_pos):
+                            current_bg = "dorms_bg"
                             dialogue = dialogues["dorms"]
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
                         
                         elif bottom_rect.collidepoint(mouse_pos):
+                            current_bg = "su_bg"
                             dialogue = dialogues["su"]
                             index = 0
                             current_expression = dialogue[index][1]
@@ -265,12 +292,14 @@ def main():
                     
                     elif choice_state == "esports":
                         if top_rect.collidepoint(mouse_pos):
+                            current_bg = "dorms_bg"
                             dialogue = dialogues["dorms"]
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
                         
                         elif bottom_rect.collidepoint(mouse_pos):
+                            current_bg = "su_bg"
                             dialogue = dialogues["su"]
                             index = 0
                             current_expression = dialogue[index][1]
@@ -278,12 +307,14 @@ def main():
 
                     elif choice_state == "gym":
                         if top_rect.collidepoint(mouse_pos):
+                            current_bg = "dorms_bg"
                             dialogue = dialogues["dorms"]
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
                         
                         elif bottom_rect.collidepoint(mouse_pos):
+                            current_bg = "su_bg"
                             dialogue = dialogues["su"]
                             index = 0
                             current_expression = dialogue[index][1]
@@ -293,7 +324,7 @@ def main():
 
                     
 
-        screen.blit(background, (0,0))
+        screen.blit(bg_imgs[current_bg], (0,0))
         screen.blit(textbox,(230,400))
         screen.blit(temoc_imgs[current_expression],(0,230))
         text = font.render (dialogue[index][0], True ,(255,255,255))
