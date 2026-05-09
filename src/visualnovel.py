@@ -27,6 +27,26 @@ expression = {"disgust": os.path.join(directory, "assets","temoc_disgust.bmp"),
         "worried": os.path.join(directory, "assets","temoc_worried.bmp"),
         "content" : os.path.join(directory, "assets","temoc_content.bmp")}
 
+def load_dialogues():
+    return{
+        "intro" : [
+        ("Welcome to UTD!", "happy"),
+        ("My name is Temoc! Let me show you around!", "content"),
+        ("Where would you like to go first?", "content")
+    ],
+    
+    "library" : [
+        ("Awesome! Let's check out the library!", "happy"),
+        ("It's the perfect place to study and take a nap!", "content"),
+        ("I hope I can pass my chemistry exam this Friday!", "worried")
+    ],
+
+    "dininghall" : [
+        ("Great choice! Let's head over to the dining hall!", "happy"),
+        ("I love the pizza here!", "content"),
+        ("My friend Enarc likes pineapple pizza, gross!", "disgust")
+    ]
+    }
 
 def load_scale(path,scale):
     img = pygame.image.load(path).convert_alpha()
@@ -41,24 +61,9 @@ def main():
                   for key, path in expression.items()}
     load_scale(expression["happy"], 2.7)
     font = pygame.font.Font(None,60)
-    dialogue = [
-        ("Welcome to UTD!", "happy"),
-        ("My name is Temoc! Let me show you around!", "content"),
-        ("Where would you like to go first?", "content")
-    ]
-
-    library_dialogue = [
-        ("Awesome! Let's check out the library!", "happy"),
-        ("It's the perfect place to study and take a nap!", "content"),
-        ("I hope I can pass my chemistry exam this Friday!", "worried")
-    ]
-
-    cafeteria_dialogue = [
-        ("Great choice! Let's head over to the dining hall!", "happy"),
-        ("I love the pizza here!", "content"),
-        ("My friend Enarc likes pineapple pizza, gross!", "disgust")
-    ]
-
+   
+    dialogues = load_dialogues()
+    dialogue = dialogues["intro"]
     index = 0
     current_expression = dialogue[index][1]
 
@@ -85,12 +90,12 @@ def main():
                     mouse_pos = pygame.mouse.get_pos()
 
                     if library_rect.collidepoint(mouse_pos):
-                        dialogue = library_dialogue
+                        dialogue = dialogues["library"]
                         index = 0
                         current_expression = dialogue[index][1]
                         show_choices = False
                     elif dining_rect.collidepoint(mouse_pos):
-                        dialogue = cafeteria_dialogue
+                        dialogue = dialogues["dininghall"]
                         index = 0
                         current_expression = dialogue[index][1]
                         show_choices = False
