@@ -38,14 +38,38 @@ def load_dialogues():
     "library" : [
         ("Awesome! Let's check out the library!", "happy"),
         ("It's the perfect place to study and take a nap!", "content"),
-        ("I hope I can pass my chemistry exam this Friday!", "worried")
+        ("I hope I can pass my chemistry exam this Friday!", "worried"),
+        ("Where would you like to go next?", "content")
     ],
 
     "dininghall" : [
         ("Great choice! Let's head over to the dining hall!", "happy"),
         ("I love the pizza here!", "content"),
-        ("My friend Enarc likes pineapple pizza, gross!", "disgust")
+        ("My friend, Enarc likes pineapple pizza, gross!", "disgust"),
+        ("Where would you like to go next?", "content")
+    ],
+
+    "esports" : [
+        ("Cool! Follow my lead!", "happy"),
+        ("This is the Esports Center!", "content"),
+        ("This is where our esports teams compete!", "content"),
+        ("You can also play games in between classes!", "happy"),
+        ("I usually like to play Valorant!", "happy"),
+        ("But...I'm not the best at the game...", "disgust"),
+    ],
+
+    "gym" : [
+        ("Sweet! I can't wait!", "happy"),
+        ("Welcome to the Rec center!", "content"),
+        ("We have a workout room, gym, and a pool!", "content"),
+        ("When using the pool make sure", "content"),
+        ("there is a lifeguard on duty!", "content"),
+        ("We wouldn't want you to drown!", "worried"),
+        ("We have some cool sports clubs!", "happy"),
+        ("Taekwondo, Swordfighting, Fencing.. ", "content"),
+        ("You should check it out!", "happy")
     ]
+
     }
 
 def load_scale(path,scale):
@@ -90,7 +114,7 @@ def main():
                     mouse_pos = pygame.mouse.get_pos()
 
                     if library_rect.collidepoint(mouse_pos):
-                        dialogue = dialogues["library"]
+                        dialogue = dialogues["gym"]
                         index = 0
                         current_expression = dialogue[index][1]
                         show_choices = False
