@@ -1,12 +1,7 @@
-from PIL import Image
+
 import pygame
 import sys
 import os
-
-# function for adding/loading UI and background to screen
-# function for adding temoc sprites
-# function for each dialogue branching systems or pathways
-#display dialogue/text function? 
 
 pygame.init()
 pygame.image.get_extended()
@@ -20,8 +15,8 @@ directory = os.path.dirname(os.path.abspath(__file__))
 textbox_path = os.path.join(directory, "assets", "text_box.bmp")
 bg_path = os.path.join(directory, "assets", "background.bmp")
 response_path = os.path.join(directory,"assets", "response_box.bmp")
+music_path = os.path.join(directory, "assets", "music.mp3")
 
-directory = os.path.dirname(os.path.abspath(__file__))
 expression = {"disgust": os.path.join(directory, "assets","temoc_disgust.bmp"),
         "happy": os.path.join(directory,"assets","temoc_happy.bmp"),
         "worried": os.path.join(directory, "assets","temoc_worried.bmp"),
@@ -88,12 +83,49 @@ def load_dialogues():
         ("and more!", "happy")
     ],
 
+    "dorms" : [
+        ("Great choice!", "happy"),
+        ("Welcome to Andromeda Hall!", "content"),
+        ("Sometimes I like to study in the commons!", "content"),
+        ("*yawn* I'm getting sleepy!", "content"),
+        ("Thank you for stopping by!", "happy"),
+        ("I'm going to take a nap!", "happy")
+    ],
+
+    "su" : [
+        ("Coolio!", "happy"),
+        ("This is the student union!", "content"),
+        ("You can get Starbucks, boba, and Panda Express!", "happy"),
+        ("Thanks for checking UTD out!", "content"),
+        ("I'm going to get some boba and study!", "happy")
+    ]
+
+
     }
 
 def load_scale(path,scale):
     img = pygame.image.load(path).convert_alpha()
     w,h = img.get_size()
     return pygame.transform.smoothscale(img,(int(w/scale), int(h/scale)))
+
+class Music:
+    def __init__(self):
+        pygame.mixer.init()
+        self.play = False
+    
+    def start_music(self, path, volume = 0.5, loop = True):
+        pygame.mixer.music.load(path)
+        pygame.mixer.music.set_volume(volume)
+        pygame.mixer.music.play(-1)
+        self.play = True
+    
+    def pause(self):
+        pygame.mixer.music.pause()
+        self.play = False 
+    
+    def resume(self):
+        pygame.mixer.music.unpause()
+        self.play = True
 
 def main():  
     background = load_scale(bg_path,1.5)
@@ -102,8 +134,9 @@ def main():
     temoc_imgs = {key: load_scale (path, 2.7)
                   for key, path in expression.items()}
     load_scale(expression["happy"], 2.7)
+    music = Music()
+    music.start_music(music_path, volume = 0.5)
     font = pygame.font.Font(None,60)
-   
     dialogues = load_dialogues()
     dialogue = dialogues["intro"]
     index = 0
@@ -126,6 +159,12 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     paused = not paused 
+
+                    if paused:
+                        music.pause()
+                    if not paused:
+                        music.resume()
+                        
             if event.type == pygame.MOUSEBUTTONDOWN and not paused:
                 if not show_choices:
                     if index < len(dialogue) -1:
@@ -134,11 +173,27 @@ def main():
                     else:
                         if dialogue == dialogues["intro"]:
                             choice_state = "intro"
+                            show_choices = True
                         elif dialogue == dialogues["library"]:
                             choice_state = "library"
+                            show_choices = True
                         elif dialogue == dialogues["dininghall"]:
                             choice_state = "dininghall"
-                        show_choices = True
+                            show_choices = True
+                        elif dialogue == dialogues["esports"]:
+                            choice_state = "esports"
+                            show_choices = True
+                        elif dialogue == dialogues["gym"]:
+                            choice_state = "gym"
+                            show_choices = True
+                        elif dialogue == dialogues["atec"]:
+                            choice_state = "atec"
+                            show_choices = True
+                        elif dialogue == dialogues["jsom"]:
+                            choice_state = "jsom"
+                            show_choices = True
+                        else:
+                            show_choices = False
 
                 else: 
                     mouse_pos = pygame.mouse.get_pos()
@@ -157,13 +212,13 @@ def main():
                             show_choices = False
 
                     elif choice_state == "library":
-                        if top_rect.collidepoint(mouse_pos):
+                        if bottom_rect.collidepoint(mouse_pos):
                             dialogue = dialogues["esports"]
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
 
-                        elif bottom_rect.collidepoint(mouse_pos):
+                        elif top_rect.collidepoint(mouse_pos):
                             dialogue = dialogues["gym"]
                             index = 0
                             current_expression = dialogue[index][1]
@@ -181,6 +236,60 @@ def main():
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
+
+                    elif choice_state == "atec":
+                        if top_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["dorms"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False 
+                        
+                        elif bottom_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["su"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
+                    
+                    elif choice_state == "jsom":
+                        if top_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["dorms"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
+                        
+                        elif bottom_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["su"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
+                    
+                    elif choice_state == "esports":
+                        if top_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["dorms"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
+                        
+                        elif bottom_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["su"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
+
+                    elif choice_state == "gym":
+                        if top_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["dorms"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
+                        
+                        elif bottom_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["su"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
+
+                
 
                     
 
@@ -213,10 +322,22 @@ def main():
             elif choice_state == "dininghall":
                 top_text = "ATEC"
                 bottom_text = "JSOM"
-            library_text = font.render(top_text, True, (255,255,255))
-            cafeteria_text = font.render(bottom_text, True, (255,255,255))
-            screen.blit(library_text, (1180,460))
-            screen.blit(cafeteria_text, (1180,540))
+            elif choice_state == "gym":
+                top_text = "Dorms"
+                bottom_text = "SU"
+            elif choice_state == "esports":
+                top_text = "Dorms"
+                bottom_text = "SU"
+            elif choice_state == "atec":
+                top_text = "Dorms"
+                bottom_text = "SU"
+            elif choice_state == "jsom":
+                top_text = "Dorms"
+                bottom_text = "SU"
+            option1_text = font.render(top_text, True, (255,255,255))
+            option2_text = font.render(bottom_text, True, (255,255,255))
+            screen.blit(option1_text, (1180,460))
+            screen.blit(option2_text, (1180,540))
 
         pygame.display.flip()
 
