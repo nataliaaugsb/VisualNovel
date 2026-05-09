@@ -62,13 +62,31 @@ def load_dialogues():
         ("Sweet! I can't wait!", "happy"),
         ("Welcome to the Rec center!", "content"),
         ("We have a workout room, gym, and a pool!", "content"),
-        ("When using the pool make sure", "content"),
+        ("When using the pool make sure...", "content"),
         ("there is a lifeguard on duty!", "content"),
         ("We wouldn't want you to drown!", "worried"),
         ("We have some cool sports clubs!", "happy"),
-        ("Taekwondo, Swordfighting, Fencing.. ", "content"),
+        ("Taekwondo, Swordfighting, Fencing... ", "content"),
         ("You should check it out!", "happy")
-    ]
+    ],
+
+    "atec" : [
+        ("Great! Let's go to the Bass bulding!", "happy"), 
+        ("This is where ATEC students have class!", "content"),
+        ("They can work in the open lab!", "content"),
+        ("Hopefully Maya doesn't crash again!", "worried"),
+        ("Their most recent film is Kraken's Tooth", "content"),
+        ("You should check it out!", "happy")
+    ],
+
+    "jsom" : [
+        ("So exciting!", "happy"),
+        ("This is JSOM!", "content"),
+        ("This is where students can study...", "content"),
+        ("Business administration, Marketing...","content"),
+        ("Supply chain management, Finance...", "content"),
+        ("and more!", "happy")
+    ],
 
     }
 
@@ -93,11 +111,11 @@ def main():
 
     show_choices = False
     choice_state = None
+    paused = False
 
-    library_rect = pygame.Rect(1150, 450, 300, 60)
-    dining_rect = pygame.Rect(1150, 530, 300, 60)
-    gym_rect = pygame.Rect(1150,450,300,60)
-    esports_rect = pygame.Rect(1150,530,300,60)
+    top_rect = pygame.Rect(1150, 450, 300, 60)
+    bottom_rect = pygame.Rect(1150, 530, 300, 60)
+    
 
     running = True
     while running:
@@ -105,7 +123,10 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    paused = not paused 
+            if event.type == pygame.MOUSEBUTTONDOWN and not paused:
                 if not show_choices:
                     if index < len(dialogue) -1:
                         index += 1
@@ -115,42 +136,71 @@ def main():
                             choice_state = "intro"
                         elif dialogue == dialogues["library"]:
                             choice_state = "library"
+                        elif dialogue == dialogues["dininghall"]:
+                            choice_state = "dininghall"
                         show_choices = True
 
                 else: 
                     mouse_pos = pygame.mouse.get_pos()
 
                     if choice_state == "intro":
-                        if library_rect.collidepoint(mouse_pos):
+                        if top_rect.collidepoint(mouse_pos):
                             dialogue = dialogues["library"]
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
 
-                        elif dining_rect.collidepoint(mouse_pos):
+                        elif bottom_rect.collidepoint(mouse_pos):
                             dialogue = dialogues["dininghall"]
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
 
                     elif choice_state == "library":
-                        if esports_rect.collidepoint(mouse_pos):
+                        if top_rect.collidepoint(mouse_pos):
                             dialogue = dialogues["esports"]
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
 
-                        elif gym_rect.collidepoint(mouse_pos):
+                        elif bottom_rect.collidepoint(mouse_pos):
                             dialogue = dialogues["gym"]
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
+                    
+                    elif choice_state == "dininghall":
+                        if top_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["atec"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
+
+                        elif bottom_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["jsom"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
+
+                    
 
         screen.blit(background, (0,0))
         screen.blit(textbox,(230,400))
         screen.blit(temoc_imgs[current_expression],(0,230))
         text = font.render (dialogue[index][0], True ,(255,255,255))
         screen.blit(text, (400, 650))
+
+        if paused:
+            pause_overlay = pygame.Surface((1920,1080))
+            pause_overlay.set_alpha(180)
+            pause_overlay.fill((0,0,0))
+
+            screen.blit(pause_overlay, (0,0))
+
+            pause_text = font.render("PAUSED", True, (255,255,255))
+            continue_text = font.render("Press P to Resume", True, (255,255,255))
+            screen.blit(pause_text, (700,300))
+            screen.blit(continue_text, (600,400))
 
         if show_choices:
             screen.blit(response, (1100,400))
@@ -160,6 +210,9 @@ def main():
             elif choice_state == "library":
                 top_text = "Rec Center"
                 bottom_text = "Esports"
+            elif choice_state == "dininghall":
+                top_text = "ATEC"
+                bottom_text = "JSOM"
             library_text = font.render(top_text, True, (255,255,255))
             cafeteria_text = font.render(bottom_text, True, (255,255,255))
             screen.blit(library_text, (1180,460))
