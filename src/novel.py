@@ -32,9 +32,16 @@ def load_scale(path,scale):
     w,h = img.get_size()
     return pygame.transform.smoothscale(img,(int(w/scale), int(h/scale)))
 
+def add_dialogue(screen, font, text, textbox, postion=(400,650)):
+    textbox = load_scale(textbox_path, 1.7)
+    screen.blit(textbox,(230,400))
+    render_text = font.render(text, True,(255,255,255))
+    screen.blit(render_text, postion)
+
+
+
 def main():  
     background = load_scale(bg_path,1.5)
-    textbox = load_scale(textbox_path, 1.7)
     temoc_imgs = {key: load_scale (path, 2.7)
                   for key, path in expression.items()}
     load_scale(expression["happy"], 2.7)
@@ -56,11 +63,11 @@ def main():
                 if index < len(dialogue) - 1:
                     index += 1
                     current_expression = dialogue[index][1]
+        add_dialogue(screen, font, dialogue[index][0],textbox)
         screen.blit(background, (0,0))
-        screen.blit(textbox,(230,400))
         screen.blit(temoc_imgs[current_expression],(0,230))
-        text = font.render (dialogue[index][0], True ,(255,255,255))
-        screen.blit(text, (400, 650))
+       
+    
 
         pygame.display.flip()
 
