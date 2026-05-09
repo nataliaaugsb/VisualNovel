@@ -92,9 +92,12 @@ def main():
     current_expression = dialogue[index][1]
 
     show_choices = False
+    choice_state = None
 
     library_rect = pygame.Rect(1150, 450, 300, 60)
     dining_rect = pygame.Rect(1150, 530, 300, 60)
+    gym_rect = pygame.Rect(1150,450,300,60)
+    esports_rect = pygame.Rect(1150,530,300,60)
 
     running = True
     while running:
@@ -108,21 +111,40 @@ def main():
                         index += 1
                         current_expression = dialogue[index][1]
                     else:
+                        if dialogue == dialogues["intro"]:
+                            choice_state = "intro"
+                        elif dialogue == dialogues["library"]:
+                            choice_state = "library"
                         show_choices = True
 
                 else: 
                     mouse_pos = pygame.mouse.get_pos()
 
-                    if library_rect.collidepoint(mouse_pos):
-                        dialogue = dialogues["gym"]
-                        index = 0
-                        current_expression = dialogue[index][1]
-                        show_choices = False
-                    elif dining_rect.collidepoint(mouse_pos):
-                        dialogue = dialogues["dininghall"]
-                        index = 0
-                        current_expression = dialogue[index][1]
-                        show_choices = False
+                    if choice_state == "intro":
+                        if library_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["library"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
+
+                        elif dining_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["dininghall"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
+
+                    elif choice_state == "library":
+                        if esports_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["esports"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
+
+                        elif gym_rect.collidepoint(mouse_pos):
+                            dialogue = dialogues["gym"]
+                            index = 0
+                            current_expression = dialogue[index][1]
+                            show_choices = False
 
         screen.blit(background, (0,0))
         screen.blit(textbox,(230,400))
@@ -132,8 +154,14 @@ def main():
 
         if show_choices:
             screen.blit(response, (1100,400))
-            library_text = font.render("Library", True, (255,255,255))
-            cafeteria_text = font.render("Dining Hall", True, (255,255,255))
+            if choice_state == "intro":
+                top_text = "Library"
+                bottom_text = "Dining Hall"
+            elif choice_state == "library":
+                top_text = "Rec Center"
+                bottom_text = "Esports"
+            library_text = font.render(top_text, True, (255,255,255))
+            cafeteria_text = font.render(bottom_text, True, (255,255,255))
             screen.blit(library_text, (1180,460))
             screen.blit(cafeteria_text, (1180,540))
 
