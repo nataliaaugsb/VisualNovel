@@ -14,7 +14,9 @@ screen = pygame.display.set_mode (resolution, pygame.RESIZABLE)
 directory = os.path.dirname(os.path.abspath(__file__))
 textbox_path = os.path.join(directory, "assets", "text_box.bmp")
 response_path = os.path.join(directory,"assets", "response_box.bmp")
-music_path = os.path.join(directory, "assets", "music.mp3")
+music_path = os.path.join(directory, "assets", "game_music.mp3")
+menu_music_path = os.path.join(directory, "assets", "menu_music.mp3")
+menu_path = os.path.join(directory, "assets", "menu_screen.bmp")
 
 backgrounds = {
     "intro_bg" : os.path.join(directory, "assets","background.bmp"),
@@ -142,7 +144,35 @@ class Music:
         pygame.mixer.music.unpause()
         self.play = True
 
+def menu():
+    music = Music()
+    music.start_music(menu_music_path, volume = 0.5)
+    font = pygame.font.Font(None, 80)
+    small_font = pygame.font.Font(None,50)
+    menu_bg = load_scale(menu_path, 1)
+    running = True
+
+    while running:
+        screen.fill((0,0,0))
+        title = font.render("A Day with Temoc", True, (0,150,0))
+        start = small_font.render("Click anywhere to Start", True, (0,150,0))
+
+        while True:
+            screen.blit(menu_bg, (0,0)) 
+            screen.blit(title, (520,350))
+            screen.blit(start, (570,450))
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                    
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                return
+            pygame.display.flip()
+    return start
+
 def main():  
+    pygame.event.clear()
     response = load_scale(response_path,4)
     textbox = load_scale(textbox_path, 1.7)
     temoc_imgs = {key: load_scale (path, 2.7)
@@ -158,13 +188,14 @@ def main():
     dialogue = dialogues["intro"]
     index = 0
     current_expression = dialogue[index][1]
-
+    quit_game = False
     show_choices = False
     choice_state = None
     paused = False
 
     top_rect = pygame.Rect(1150, 450, 300, 60)
     bottom_rect = pygame.Rect(1150, 530, 300, 60)
+
     
 
     running = True
@@ -267,6 +298,7 @@ def main():
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False 
+                            quit_game = True
                         
                         elif bottom_rect.collidepoint(mouse_pos):
                             current_bg = "su_bg"
@@ -274,6 +306,7 @@ def main():
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
+                            quit_game = True
                     
                     elif choice_state == "jsom":
                         if top_rect.collidepoint(mouse_pos):
@@ -282,6 +315,7 @@ def main():
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
+                            quit_game = True
                         
                         elif bottom_rect.collidepoint(mouse_pos):
                             current_bg = "su_bg"
@@ -289,6 +323,7 @@ def main():
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
+                            quit_game = True
                     
                     elif choice_state == "esports":
                         if top_rect.collidepoint(mouse_pos):
@@ -297,6 +332,7 @@ def main():
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
+                            quit_game = True
                         
                         elif bottom_rect.collidepoint(mouse_pos):
                             current_bg = "su_bg"
@@ -304,6 +340,7 @@ def main():
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
+                            quit_game = True
 
                     elif choice_state == "gym":
                         if top_rect.collidepoint(mouse_pos):
@@ -312,6 +349,7 @@ def main():
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
+                            quit_game = True
                         
                         elif bottom_rect.collidepoint(mouse_pos):
                             current_bg = "su_bg"
@@ -319,6 +357,7 @@ def main():
                             index = 0
                             current_expression = dialogue[index][1]
                             show_choices = False
+                            quit_game = True
 
                 
 
@@ -371,11 +410,16 @@ def main():
             screen.blit(option2_text, (1180,540))
 
         pygame.display.flip()
+        if quit_game and index == len(dialogue)-1:
+            pygame.time.delay(5000)
+            return menu
 
     pygame.quit()
     sys.exit()
 
 
 if __name__=="__main__":
-    main()
+    while True:
+        menu()
+        main()
 
