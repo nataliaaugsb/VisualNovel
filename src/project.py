@@ -130,7 +130,7 @@ class Music:
         pygame.mixer.init()
         self.play = False
     
-    def start_music(self, path, volume = 0.5, loop = True):
+    def start_music(self, path, volume = 0.3, loop = True):
         pygame.mixer.music.load(path)
         pygame.mixer.music.set_volume(volume)
         pygame.mixer.music.play(-1)
@@ -181,7 +181,7 @@ def main():
                for key, path in backgrounds.items()}
     load_scale(expression["happy"], 2.7)
     music = Music()
-    music.start_music(music_path, volume = 0.5)
+    music.start_music(music_path, volume = 0.3)
     font = pygame.font.Font(None,60)
     dialogues = load_dialogues()
     current_bg = "intro_bg"
