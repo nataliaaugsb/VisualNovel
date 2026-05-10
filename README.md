@@ -1,4 +1,13 @@
 # VisualNovel
+
+
+## Demo
+
+
+## Github Repository
+
+[Github link](https://github.com/nataliaaugsb/VisualNovel)
+
 Final Project for ANGM 2305.
 A visual novel based game where Temoc gives the player a tour of 
 UTD's campus. The player must choose which buildings they would
@@ -17,4 +26,4 @@ flesh the game out more. The backgrounds could be improved upon
 as well. Perhaps instead of using images from UTD's website I could
 have drawn them myself. Adding text animations, maybe eyeblink animations, etc could help make the game feel more alive. But for what it is, I think I am happy with what I made so far.
 
-[Github link](https://github.com/nataliaaugsb/VisualNovel)
+
